@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Les Bonnes Tables 🍽️</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+    :root {
+      --cream: #faf6f0;
+      --warm-white: #fffdf9;
+      --terracotta: #c8593a;
+      --gold-light: #e8c97a;
+      --dark: #1e1a16;
+      --text: #3a3028;
+      --muted: #8a7d72;
+      --border: #e8dfd4;
+      --shadow: rgba(30, 26, 22, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--dark);
+      color: var(--cream);
+      text-align: center;
+      padding: 72px 24px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 60% 0%, rgba(201,168,76,.18) 0%, transparent 60%),
+                  radial-gradient(ellipse at 10% 100%, rgba(200,89,58,.15) 0%, transparent 55%);
+    }
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 18px;
+      position: relative;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 700;
+      line-height: 1.1;
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold-light); }
+    .hero-sub {
+      font-size: 15px;
+      color: rgba(250,246,240,.65);
+      position: relative;
+      max-width: 460px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
+    }
+
+    /* ── Lang switcher ── */
+    .lang-switcher {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      display: flex;
+      gap: 3px;
+      z-index: 2;
+    }
+    .lang-btn {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 6px;
+      padding: 5px 11px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      color: rgba(250,246,240,.5);
+      cursor: pointer;
+      letter-spacing: 1px;
+      transition: all .2s;
+    }
+    .lang-btn:hover { background: rgba(255,255,255,.16); color: var(--cream); }
+    .lang-btn.active { background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.45); color: var(--cream); }
+
+    /* ── City switcher ── */
+    .city-switcher {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .city-btn {
+      background: rgba(255,255,255,.08);
+      border: 1.5px solid rgba(255,255,255,.2);
+      border-radius: 99px;
+      padding: 10px 28px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      color: rgba(250,246,240,.7);
+      cursor: pointer;
+      transition: all .25s;
+      letter-spacing: .3px;
+    }
+    .city-btn:hover { background: rgba(255,255,255,.14); color: var(--cream); border-color: rgba(255,255,255,.4); }
+    .city-btn.active { background: var(--terracotta); border-color: var(--terracotta); color: #fff; }
+
+    /* ── Filters ── */
+    .filters-wrap {
+      background: var(--warm-white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .filters-row {
+      display: flex;
+      gap: 4px;
+      padding: 10px 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+      max-width: 900px;
+      width: 100%;
+    }
+    .filters-row + .filters-row {
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+      padding-bottom: 10px;
+    }
+    .filters-row::-webkit-scrollbar { display: none; }
+    .filter-label {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      align-self: center;
+      white-space: nowrap;
+      padding-right: 4px;
+      flex-shrink: 0;
+    }
+    .filter-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all .2s;
+      flex-shrink: 0;
+    }
+    .filter-btn:hover { border-color: var(--terracotta); color: var(--terracotta); }
+    .filter-btn.active {
+      background: var(--terracotta);
+      border-color: var(--terracotta);
+      color: #fff;
+      font-weight: 500;
+    }
+    .filters-row.arr-row .filter-btn { padding: 4px 11px; font-size: 11px; }
+
+    /* ── Main layout ── */
+    .main { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
+
+    /* ── City content ── */
+    .city-content { display: none; }
+    .city-content.visible { display: block; }
+
+    /* ── Category section ── */
+    .category { margin-bottom: 56px; }
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .category-emoji {
+      width: 48px; height: 48px;
+      background: var(--dark);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .category-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+    .category-line { height: 1px; background: var(--border); margin-bottom: 24px; }
+
+    /* ── Cards grid ── */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    /* ── Card ── */
+    .card, a.card {
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0;
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+      position: relative;
+      overflow: hidden;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+    a.card:hover, .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px var(--shadow);
+      border-color: #d8cfc4;
+    }
+    a.card { cursor: pointer; }
+    a.card::after {
+      content: '↗';
+      position: absolute;
+      bottom: 14px; right: 16px;
+      font-size: 11px;
+      color: var(--muted);
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    a.card:hover::after { opacity: 1; }
+
+    /* ── Card image ── */
+    .card-img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #1a1714;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transition: transform .4s ease;
+    }
+    a.card:hover .card-img img,
+    .card:hover .card-img img {
+      transform: scale(1.04);
+    }
+    .card-img.hidden { display: none; }
+
+    /* ── Card body ── */
+    .card-body { padding: 16px 20px 20px; }
+
+    .card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 6px;
+      padding-right: 24px;
+      line-height: 1.3;
+    }
+    .card-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .3px;
+      padding: 3px 10px;
+      border-radius: 99px;
+    }
+    .tag-arr { background: rgba(200,89,58,.1); color: var(--terracotta); }
+    .tag-cuisine { background: rgba(30,26,22,.07); color: var(--muted); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 32px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .hero { padding: 48px 20px 40px; }
+      .cards { grid-template-columns: 1fr 1fr; }
+      .lang-switcher { top: 14px; right: 16px; }
+    }
+    @media (max-width: 400px) {
+      .cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+  <p class="hero-eyebrow" data-i18n="eyebrow">La sélection personnelle</p>
+  <h1>Les <em>Bonnes</em> Tables</h1>
+  <p class="hero-sub" data-i18n="subtitle">Une curation de restaurants testés et approuvés, organisée par cuisine, pour ne jamais manquer d'inspiration.</p>
+  <div class="city-switcher">
+    <button class="city-btn active" onclick="switchCity(this, 'paris')">🗼 Paris</button>
+    <button class="city-btn" onclick="switchCity(this, 'lorient')">⚓ Lorient</button>
+  </div>
+</header>
+
+<!-- ── FILTERS ── -->
+<div class="filters-wrap" id="filters-wrap">
+  <div class="filters-row" id="row-cuisine">
+    <span class="filter-label" data-i18n="label-cuisine">Cuisine</span>
+    <button class="filter-btn active" onclick="setCat(this, null)" data-i18n="f-all">Tout</button>
+    <button class="filter-btn" onclick="setCat(this, 'francais')" data-i18n="f-fr">🇫🇷 Français</button>
+    <button class="filter-btn" onclick="setCat(this, 'italien')" data-i18n="f-it">🇮🇹 Italien</button>
+    <button class="filter-btn" onclick="setCat(this, 'asiatique')" data-i18n="f-as">🍚 Asiatiques</button>
+    <button class="filter-btn" onclick="setCat(this, 'monde')" data-i18n="f-wo">🌎 Cuisines du monde</button>
+    <button class="filter-btn" onclick="setCat(this, 'burger')" data-i18n="f-bu">🍔 Burgers</button>
+    <button class="filter-btn" onclick="setCat(this, 'todo')" data-i18n="f-td">📌 À tester</button>
+  </div>
+  <div class="filters-row arr-row" id="row-arr">
+    <span class="filter-label" data-i18n="label-arr">Arrdt</span>
+    <button class="filter-btn active" onclick="setArr(this, null)" data-i18n="arr-all">Tous</button>
+    <button class="filter-btn" onclick="setArr(this, '1er')">1<sup>er</sup></button>
+    <button class="filter-btn" onclick="setArr(this, '2e')">2<sup>e</sup></button>
+    <button class="filter-btn" onclick="setArr(this, '3e')">3<sup>e</sup></button>
+    <button class="filter-btn" onclick="setArr(this, '5e')">5<sup>e</sup></button>
+    <button class="filter-btn" onclick="setArr(this, '6e')">6<sup>e</sup></button>
+    <button class="filter-btn" onclick="setArr(this, '7e')">7<sup>e</sup></button>
+    <button class="filter-btn" onclick="setArr(this, '8e')">8<sup>e</sup></button>
+    <button class="filter-btn" onclick="setArr(this, '9e')">9<sup>e</sup></button>
+    <button class="filter-btn" onclick="setArr(this, '10e')">10<sup>e</sup></button>
+    <button class="filter-btn" onclick="setArr(this, '11e')">11<sup>e</sup></button>
+    <button class="filter-btn" onclick="setArr(this, '13e')">13<sup>e</sup></button>
+    <button class="filter-btn" onclick="setArr(this, '14e')">14<sup>e</sup></button>
+    <button class="filter-btn" onclick="setArr(this, '15e')">15<sup>e</sup></button>
+    <button class="filter-btn" onclick="setArr(this, '17e')">17<sup>e</sup></button>
+    <button class="filter-btn" onclick="setArr(this, '18e')">18<sup>e</sup></button>
+    <button class="filter-btn" onclick="setArr(this, 'panoramas')">Passages</button>
+    <button class="filter-btn" onclick="setArr(this, 'clichy')">Clichy</button>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- ══════════ PARIS ══════════ -->
+  <div class="city-content visible" id="city-paris">
+
+    <!-- ── FRANÇAIS ── -->
+    <section class="category" data-cat="francais">
+      <div class="category-header">
+        <div class="category-emoji">🇫🇷</div>
+        <h2 class="category-title" data-i18n="title-fr">Cuisine Française</h2>
+      </div>
+      <div class="category-line"></div>
+      <div class="cards">
+
+        <a class="card" data-arr="1er" href="https://www.lecomptoirdespetitschamps.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Le Comptoir des Petits Champs" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Le Comptoir des Petits Champs</div><div class="card-meta"><span class="tag tag-arr">1<sup>er</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="2e" href="https://commeunbouillon.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Comme un bouillon" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Comme un bouillon</div><div class="card-meta"><span class="tag tag-arr">2<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="2e" href="https://www.publichouseparis.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="Public%20House.jpg" alt="Public House" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Public House</div><div class="card-meta"><span class="tag tag-arr">2<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="panoramas" href="https://clubcochon.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Club Cochon" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Club Cochon</div><div class="card-meta"><span class="tag tag-arr">Passage des Panoramas</span></div></div>
+        </a>
+
+        <a class="card" data-arr="3e" href="https://www.lepetitmarche.eu/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Le Petit Marché" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Le Petit Marché</div><div class="card-meta"><span class="tag tag-arr">3<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="6e" href="https://www.chezfernand-guisarde.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Chez Fernand" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Chez Fernand</div><div class="card-meta"><span class="tag tag-arr">6<sup>e</sup> · rue Guisarde</span></div></div>
+        </a>
+
+        <a class="card" data-arr="7e" href="https://lavillareine.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="La Villa Reine" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">La Villa Reine</div><div class="card-meta"><span class="tag tag-arr">7<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="7e" href="https://www.fontaine-de-mars.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="La Fontaine de Mars" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">La Fontaine de Mars</div><div class="card-meta"><span class="tag tag-arr">7<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="7e" href="https://www.leptittroquet.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Le P'tit Troquet" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Le P'tit Troquet</div><div class="card-meta"><span class="tag tag-arr">7<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="9e" href="https://clubcochon.com/lauberge" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Club Cochon l'Auberge" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Club Cochon l'Auberge</div><div class="card-meta"><span class="tag tag-arr">9<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="9e" href="https://pristineparis.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Pristine" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Pristine</div><div class="card-meta"><span class="tag tag-arr">9<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="9e" href="https://www.lesfilsamaman.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Les Fils à Maman" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Les Fils à Maman</div><div class="card-meta"><span class="tag tag-arr">9<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="10e" href="https://www.restaurantlechardon.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="Le%20Chardon.jpg" alt="Le Chardon" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Le Chardon</div><div class="card-meta"><span class="tag tag-arr">10<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="10e" href="https://www.restaurantlepetitchardon.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="Le%20Petit%20Chardon.jpg" alt="Le Petit Chardon" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Le Petit Chardon</div><div class="card-meta"><span class="tag tag-arr">10<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="10e" href="https://lanouvellegarde.com/en/brasserie-dubillot/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="Dubillot.jpg" alt="Dubillot" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Dubillot</div><div class="card-meta"><span class="tag tag-arr">10<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="10e" href="https://www.bouillon-julien.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Bouillon Julien" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Bouillon Julien</div><div class="card-meta"><span class="tag tag-arr">10<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="10e" href="https://willette.zensites.zenchef.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Willette" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Willette</div><div class="card-meta"><span class="tag tag-arr">10<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="13e" href="https://boria-paris.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="BORIA" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">BORIA</div><div class="card-meta"><span class="tag tag-arr">13<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="14e" href="https://www.brutus-creperies.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Crêperie Brutus" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Crêperie Brutus</div><div class="card-meta"><span class="tag tag-arr">14<sup>e</sup></span></div></div>
+        </a>
+
+        <div class="card" data-arr="15e">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="L'Abreuvoir" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">L'Abreuvoir</div><div class="card-meta"><span class="tag tag-arr">15<sup>e</sup></span></div></div>
+        </div>
+
+        <a class="card" data-arr="15e" href="https://www.lacantinelourmel.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="La Cantine Lourmel" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">La Cantine Lourmel</div><div class="card-meta"><span class="tag tag-arr">15<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="15e" href="https://bistromonreve.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Bistro Mon Rêve" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Bistro Mon Rêve</div><div class="card-meta"><span class="tag tag-arr">15<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="18e" href="https://restaurant-montcalm.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Montcalm" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Montcalm</div><div class="card-meta"><span class="tag tag-arr">18<sup>e</sup></span></div></div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ── ITALIEN ── -->
+    <section class="category" data-cat="italien">
+      <div class="category-header">
+        <div class="category-emoji">🇮🇹</div>
+        <h2 class="category-title" data-i18n="title-it">Cuisine Italienne</h2>
+      </div>
+      <div class="category-line"></div>
+      <div class="cards">
+
+        <a class="card" data-arr="panoramas" href="https://racinesparis.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Racines" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Racines</div><div class="card-meta"><span class="tag tag-arr">Passage des Panoramas</span></div></div>
+        </a>
+
+        <a class="card" data-arr="2e" href="https://www.bigmammagroup.com/en/trattorias/pizzeria-popolare" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-qVOtaDNIOlI?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Popolare" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Popolare</div><div class="card-meta"><span class="tag tag-arr">2<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="3e" href="https://www.terrapizzaparis.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Terra Pizza" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Terra Pizza</div><div class="card-meta"><span class="tag tag-arr">3<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="6e" href="https://www.pizzachic.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Pizza Chic" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Pizza Chic</div><div class="card-meta"><span class="tag tag-arr">6<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="9e" href="https://papacionuparis.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Le Papacionu" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Le Papacionu</div><div class="card-meta"><span class="tag tag-arr">9<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="10e" href="https://www.redsauce.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="Red%20Sauce.jpg" alt="Red Sauce" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Red Sauce</div><div class="card-meta"><span class="tag tag-arr">10<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="10e" href="https://www.bigmammagroup.com/italian-restaurants/libertino" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Libertino" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Libertino</div><div class="card-meta"><span class="tag tag-arr">10<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="10e" href="https://vafamoc.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Vafamoc" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Vafamoc</div><div class="card-meta"><span class="tag tag-arr">10<sup>e</sup></span></div></div>
+        </a>
+
+        <div class="card" data-arr="11e">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Mio Posto" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Mio Posto</div><div class="card-meta"><span class="tag tag-arr">11<sup>e</sup></span></div></div>
+        </div>
+
+        <a class="card" data-arr="15e" href="https://fratellicastellano2019.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Fratelli Castellano" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Fratelli Castellano</div><div class="card-meta"><span class="tag tag-arr">15<sup>e</sup></span></div></div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ── ASIATIQUES ── -->
+    <section class="category" data-cat="asiatique">
+      <div class="category-header">
+        <div class="category-emoji">🍚</div>
+        <h2 class="category-title" data-i18n="title-as">Cuisines Asiatiques</h2>
+      </div>
+      <div class="category-line"></div>
+      <div class="cards">
+
+        <a class="card" data-arr="1er" href="https://www.kunitoraya.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-jOFGlU-vpY8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Kunitoraya" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Kunitoraya</div><div class="card-meta"><span class="tag tag-arr">1<sup>er</sup></span><span class="tag tag-cuisine" data-i18n="t-japonais">Japonais</span></div></div>
+        </a>
+
+        <a class="card" data-arr="1er" href="https://jantchi.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1617196034183-421b4040ed20?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Jantchi" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Jantchi</div><div class="card-meta"><span class="tag tag-arr">1<sup>er</sup></span><span class="tag tag-cuisine" data-i18n="t-coreen">Coréen</span></div></div>
+        </a>
+
+        <div class="card" data-arr="2e">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1562802378-063ec186a863?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Vieng Siam" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Vieng Siam</div><div class="card-meta"><span class="tag tag-arr">2<sup>e</sup></span><span class="tag tag-cuisine" data-i18n="t-thai">Thaïlandais</span></div></div>
+        </div>
+
+        <div class="card" data-arr="3e">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Tanori" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Tanori</div><div class="card-meta"><span class="tag tag-arr">3<sup>e</sup></span><span class="tag tag-cuisine" data-i18n="t-japonais">Japonais</span></div></div>
+        </div>
+
+        <a class="card" data-arr="7e" href="https://restaurant7nouilles.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Restaurant 7 Nouilles" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Restaurant 7 Nouilles</div><div class="card-meta"><span class="tag tag-arr">7<sup>e</sup></span><span class="tag tag-cuisine" data-i18n="t-chinois">Chinois</span></div></div>
+        </a>
+
+        <a class="card" data-arr="8e" href="https://www.imperialtreasure.com/france/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Imperial Treasure" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Imperial Treasure</div><div class="card-meta"><span class="tag tag-arr">8<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="10e" href="https://lepetitcambodge.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1562802378-063ec186a863?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Le Petit Cambodge" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Le Petit Cambodge</div><div class="card-meta"><span class="tag tag-arr">10<sup>e</sup></span><span class="tag tag-cuisine" data-i18n="t-cambodgien">Cambodgien</span></div></div>
+        </a>
+
+        <a class="card" data-arr="10e" href="https://www.redsauce.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="Red%20Sauce.jpg" alt="Red Sauce" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Red Sauce</div><div class="card-meta"><span class="tag tag-arr">10<sup>e</sup></span></div></div>
+        </a>
+
+        <div class="card" data-arr="13e">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1617196034183-421b4040ed20?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Mala Mala" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Mala Mala</div><div class="card-meta"><span class="tag tag-arr">13<sup>e</sup></span></div></div>
+        </div>
+
+        <div class="card" data-arr="15e">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1617196034183-421b4040ed20?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Bokko" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Bokko</div><div class="card-meta"><span class="tag tag-arr">15<sup>e</sup></span><span class="tag tag-cuisine" data-i18n="t-coreen">Coréen</span></div></div>
+        </div>
+
+        <a class="card" data-arr="15e" href="https://cheztonton.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Chez Tonton" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Chez Tonton</div><div class="card-meta"><span class="tag tag-arr">15<sup>e</sup></span><span class="tag tag-cuisine" data-i18n="t-chinois">Chinois</span></div></div>
+        </a>
+
+        <a class="card" data-arr="panoramas" href="https://gyozabar.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-jOFGlU-vpY8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Gyoza Bar" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Gyoza Bar</div><div class="card-meta"><span class="tag tag-arr">Passage des Panoramas</span><span class="tag tag-cuisine" data-i18n="t-japonais">Japonais</span></div></div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ── CUISINES DU MONDE ── -->
+    <section class="category" data-cat="monde">
+      <div class="category-header">
+        <div class="category-emoji">🌎</div>
+        <h2 class="category-title" data-i18n="title-wo">Cuisines du Monde</h2>
+      </div>
+      <div class="category-line"></div>
+      <div class="cards">
+
+        <a class="card" data-arr="9e" href="https://www.miznonparis.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Miznon" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Miznon</div><div class="card-meta"><span class="tag tag-arr">9<sup>e</sup></span><span class="tag tag-cuisine" data-i18n="t-israelien">Israélien</span></div></div>
+        </a>
+
+        <div class="card" data-arr="9e">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Maison de la Culture Arménienne" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Maison de la Culture Arménienne</div><div class="card-meta"><span class="tag tag-arr">9<sup>e</sup></span><span class="tag tag-cuisine" data-i18n="t-armenien">Arménien</span></div></div>
+        </div>
+
+        <a class="card" data-arr="9e" href="https://www.blackbeansmexicain.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Black Beans" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Black Beans</div><div class="card-meta"><span class="tag tag-arr">9<sup>e</sup></span><span class="tag tag-cuisine" data-i18n="t-mexicain">Mexicain</span></div></div>
+        </a>
+
+        <a class="card" data-arr="2e" href="https://ibrik.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Ibrik" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Ibrik</div><div class="card-meta"><span class="tag tag-arr">2<sup>e</sup></span><span class="tag tag-cuisine" data-i18n="t-balkans">Balkans</span></div></div>
+        </a>
+
+        <a class="card" data-arr="17e" href="https://nirvana-inde-paris.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1551183053-bf91798d047b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Nirvana Inde" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Nirvana Inde</div><div class="card-meta"><span class="tag tag-arr">17<sup>e</sup></span><span class="tag tag-cuisine" data-i18n="t-indien">Indien</span></div></div>
+        </a>
+
+        <a class="card" data-arr="clichy" href="https://www.leposto9.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Posto 9" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Posto 9</div><div class="card-meta"><span class="tag tag-arr">Clichy</span><span class="tag tag-cuisine" data-i18n="t-bresilien">Brésilien</span></div></div>
+        </a>
+
+        <a class="card" data-arr="5e" href="https://nossa-paris.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Nossa" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Nossa</div><div class="card-meta"><span class="tag tag-arr">5<sup>e</sup></span><span class="tag tag-cuisine" data-i18n="t-portugais">Portugais</span></div></div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ── BURGERS ── -->
+    <section class="category" data-cat="burger">
+      <div class="category-header">
+        <div class="category-emoji">🍔</div>
+        <h2 class="category-title" data-i18n="title-bu">Burgers</h2>
+      </div>
+      <div class="category-line"></div>
+      <div class="cards">
+
+        <a class="card" data-arr="10e" href="https://www.dumboparis.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Dumbo" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Dumbo</div><div class="card-meta"><span class="tag tag-arr">10<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="15e" href="https://www.lacabane47.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1586816001966-79b736744398?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Cabane 47" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Cabane 47</div><div class="card-meta"><span class="tag tag-arr">15<sup>e</sup></span></div></div>
+        </a>
+
+        <a class="card" data-arr="15e" href="https://lavillareine.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1553979459-d2229ba7433a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="La Villa Reine" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">La Villa Reine</div><div class="card-meta"><span class="tag tag-arr">15<sup>e</sup></span></div></div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ── À TESTER ── -->
+    <section class="category" data-cat="todo">
+      <div class="category-header">
+        <div class="category-emoji" style="background:#6b5e52;">📌</div>
+        <h2 class="category-title" style="color:#6b5e52;" data-i18n="title-td">À tester</h2>
+      </div>
+      <div class="category-line"></div>
+      <div class="cards">
+
+        <a class="card" data-arr="15e" href="https://lesperessiffleurs.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Les Pères Siffleurs" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Les Pères Siffleurs</div><div class="card-meta"><span class="tag tag-arr">15<sup>e</sup></span></div></div>
+        </a>
+
+      </div>
+    </section>
+
+  </div><!-- /city-paris -->
+
+  <!-- ══════════ LORIENT ══════════ -->
+  <div class="city-content" id="city-lorient">
+
+    <!-- ── EN VILLE ── -->
+    <section class="category">
+      <div class="category-header">
+        <div class="category-emoji">⚓</div>
+        <h2 class="category-title" data-i18n="title-ev">En ville</h2>
+      </div>
+      <div class="category-line"></div>
+      <div class="cards">
+
+        <a class="card" href="https://www.tavarnlorient.bzh/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Le Morvan" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Le Morvan</div><div class="card-meta"><span class="tag tag-cuisine" data-i18n="t-taverne">Taverne</span></div></div>
+        </a>
+
+        <a class="card" href="https://www.le-neptune-lorient.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1559737558-2f5a35f4523b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Le Neptune" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Le Neptune</div><div class="card-meta"><span class="tag tag-cuisine" data-i18n="t-bestvalue">Meilleur rapport qualité/prix</span></div></div>
+        </a>
+
+        <a class="card" href="https://www.facebook.com/lavillamargaret/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="La Villa Margaret" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">La Villa Margaret</div><div class="card-meta"><span class="tag tag-cuisine" data-i18n="t-barrest">Bar &amp; restaurant</span></div></div>
+        </a>
+
+        <a class="card" href="https://www.domaine-locguenole.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Le Château de Locguénolé" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Le Château de Locguénolé</div><div class="card-meta"><span class="tag tag-cuisine" data-i18n="t-cadre">Cadre incroyable</span></div></div>
+        </a>
+
+        <div class="card">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Le Jardin des Curés" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Le Jardin des Curés</div><div class="card-meta"><span class="tag tag-cuisine" data-i18n="t-terrasse">Belle terrasse</span></div></div>
+        </div>
+
+        <a class="card" href="https://www.clubbulot.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1559737558-2f5a35f4523b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Bulot Bulot" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Bulot Bulot</div><div class="card-meta"><span class="tag tag-arr" data-i18n="t-port">Proche du port</span><span class="tag tag-cuisine" data-i18n="t-barresto">Bar &amp; resto</span></div></div>
+        </a>
+
+        <a class="card" href="https://www.facebook.com/lepoulpelorient/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1534482421-64566f976cfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Le Poulpe" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Le Poulpe</div></div>
+        </a>
+
+        <a class="card" href="https://www.bistrotduboucher.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Le Bistrot à la Française" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Le Bistrot à la Française</div><div class="card-meta"><span class="tag tag-arr" data-i18n="t-carrefour">Zone Carrefour</span><span class="tag tag-cuisine" data-i18n="t-brasserie">Brasserie · Bouchon</span></div></div>
+        </a>
+
+        <a class="card" href="https://www.leclosmargaux.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Le Clos Margaux" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Le Clos Margaux</div><div class="card-meta"><span class="tag tag-arr" data-i18n="t-centrev">Centre-ville</span></div></div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ── AUX ALENTOURS ── -->
+    <section class="category">
+      <div class="category-header">
+        <div class="category-emoji">🌊</div>
+        <h2 class="category-title" data-i18n="title-al">Aux alentours</h2>
+      </div>
+      <div class="category-line"></div>
+      <div class="cards">
+
+        <a class="card" href="https://www.facebook.com/p/La-Guinguette-de-Toulhars-61561217457699/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1559737558-2f5a35f4523b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="La Guinguette de Thoulars" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">La Guinguette de Thoulars</div><div class="card-meta"><span class="tag tag-arr">Larmor-Plage</span><span class="tag tag-cuisine" data-i18n="t-ete">Pour l'été</span></div></div>
+        </a>
+
+        <div class="card">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Bleu Thé" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Bleu Thé</div><div class="card-meta"><span class="tag tag-arr">Île de Groix</span><span class="tag tag-cuisine" data-i18n="t-the">Salon de thé</span></div></div>
+        </div>
+
+        <a class="card" href="https://la-cantine-des-matelots.eatbu.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1534482421-64566f976cfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="La Cantine des Matelots" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">La Cantine des Matelots</div><div class="card-meta"><span class="tag tag-arr">Port-Louis</span><span class="tag tag-cuisine" data-i18n="t-must">Incontournable</span></div></div>
+        </a>
+
+        <a class="card" href="https://lecumegourmande.site-solocal.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="L'Écume Gourmande" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">L'Écume Gourmande</div><div class="card-meta"><span class="tag tag-arr">Lomener</span><span class="tag tag-cuisine" data-i18n="t-creperie">Crêperie</span></div></div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ── À TESTER ── -->
+    <section class="category">
+      <div class="category-header">
+        <div class="category-emoji" style="background:#6b5e52;">📌</div>
+        <h2 class="category-title" style="color:#6b5e52;" data-i18n="title-td">À tester</h2>
+      </div>
+      <div class="category-line"></div>
+      <div class="cards">
+
+        <a class="card" href="https://www.facebook.com/lepaloalto/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Les Frangins" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Les Frangins</div><div class="card-meta"><span class="tag tag-arr">Rue de la Perrière</span></div></div>
+        </a>
+
+        <a class="card" href="https://cafedubail.fr/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Café Dubail" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">Café Dubail</div><div class="card-meta"><span class="tag tag-arr">Rue Dubail</span></div></div>
+        </a>
+
+      </div>
+    </section>
+
+  </div><!-- /city-lorient -->
+
+</main>
+
+<footer data-i18n="footer">Les Bonnes Tables · Mise à jour 2026</footer>
+
+<script>
+  /* ── Translations ── */
+  const tr = {
+    fr: {
+      'eyebrow':    'La sélection personnelle',
+      'subtitle':   'Une curation de restaurants testés et approuvés, organisée par cuisine, pour ne jamais manquer d\'inspiration.',
+      'label-cuisine': 'Cuisine',
+      'label-arr':  'Arrdt',
+      'f-all':      'Tout',
+      'arr-all':    'Tous',
+      'f-fr':       '🇫🇷 Français',
+      'f-it':       '🇮🇹 Italien',
+      'f-as':       '🍚 Asiatiques',
+      'f-wo':       '🌎 Cuisines du monde',
+      'f-bu':       '🍔 Burgers',
+      'f-td':       '📌 À tester',
+      'title-fr':   'Cuisine Française',
+      'title-it':   'Cuisine Italienne',
+      'title-as':   'Cuisines Asiatiques',
+      'title-wo':   'Cuisines du Monde',
+      'title-bu':   'Burgers',
+      'title-td':   'À tester',
+      'title-ev':   'En ville',
+      'title-al':   'Aux alentours',
+      't-japonais':  'Japonais',
+      't-coreen':    'Coréen',
+      't-thai':      'Thaïlandais',
+      't-chinois':   'Chinois',
+      't-cambodgien':'Cambodgien',
+      't-israelien': 'Israélien',
+      't-armenien':  'Arménien',
+      't-mexicain':  'Mexicain',
+      't-balkans':   'Balkans',
+      't-indien':    'Indien',
+      't-bresilien': 'Brésilien',
+      't-portugais': 'Portugais',
+      't-taverne':   'Taverne',
+      't-bestvalue': 'Meilleur rapport qualité/prix',
+      't-barrest':   'Bar & restaurant',
+      't-cadre':     'Cadre incroyable',
+      't-terrasse':  'Belle terrasse',
+      't-port':      'Proche du port',
+      't-barresto':  'Bar & resto',
+      't-carrefour': 'Zone Carrefour',
+      't-brasserie': 'Brasserie · Bouchon',
+      't-centrev':   'Centre-ville',
+      't-ete':       'Pour l\'été',
+      't-the':       'Salon de thé',
+      't-must':      'Incontournable',
+      't-creperie':  'Crêperie',
+      'footer':      'Les Bonnes Tables · Mise à jour 2026',
+    },
+    en: {
+      'eyebrow':    'A personal selection',
+      'subtitle':   'A curated list of tried and tested restaurants, organised by cuisine — never run out of inspiration.',
+      'label-cuisine': 'Cuisine',
+      'label-arr':  'Dist.',
+      'f-all':      'All',
+      'arr-all':    'All',
+      'f-fr':       '🇫🇷 French',
+      'f-it':       '🇮🇹 Italian',
+      'f-as':       '🍚 Asian',
+      'f-wo':       '🌎 World Cuisines',
+      'f-bu':       '🍔 Burgers',
+      'f-td':       '📌 To try',
+      'title-fr':   'French Cuisine',
+      'title-it':   'Italian Cuisine',
+      'title-as':   'Asian Cuisines',
+      'title-wo':   'World Cuisines',
+      'title-bu':   'Burgers',
+      'title-td':   'To try',
+      'title-ev':   'In town',
+      'title-al':   'Around',
+      't-japonais':  'Japanese',
+      't-coreen':    'Korean',
+      't-thai':      'Thai',
+      't-chinois':   'Chinese',
+      't-cambodgien':'Cambodian',
+      't-israelien': 'Israeli',
+      't-armenien':  'Armenian',
+      't-mexicain':  'Mexican',
+      't-balkans':   'Balkans',
+      't-indien':    'Indian',
+      't-bresilien': 'Brazilian',
+      't-portugais': 'Portuguese',
+      't-taverne':   'Tavern',
+      't-bestvalue': 'Best value for money',
+      't-barrest':   'Bar & restaurant',
+      't-cadre':     'Incredible setting',
+      't-terrasse':  'Beautiful terrace',
+      't-port':      'Near the port',
+      't-barresto':  'Bar & resto',
+      't-carrefour': 'Carrefour area',
+      't-brasserie': 'Brasserie · Butcher',
+      't-centrev':   'City centre',
+      't-ete':       'For summer',
+      't-the':       'Tea room',
+      't-must':      'A must',
+      't-creperie':  'Crêperie',
+      'footer':      'Les Bonnes Tables · Updated 2026',
+    }
+  };
+
+  let currentLang = 'fr';
+
+  function setLang(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (tr[lang][key] !== undefined) el.textContent = tr[lang][key];
+    });
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      b.classList.toggle('active', b.textContent === lang.toUpperCase());
+    });
+  }
+
+  /* ── City / filter logic ── */
+  let currentCity = 'paris';
+  let activeCat = null;
+  let activeArr = null;
+
+  function switchCity(btn, city) {
+    document.querySelectorAll('.city-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.city-content').forEach(c => c.classList.remove('visible'));
+    document.getElementById('city-' + city).classList.add('visible');
+    currentCity = city;
+    const wrap = document.getElementById('filters-wrap');
+    wrap.style.display = city === 'paris' ? '' : 'none';
+    activeCat = null; activeArr = null;
+    document.querySelectorAll('#row-cuisine .filter-btn').forEach((b,i) => b.classList.toggle('active', i===0));
+    document.querySelectorAll('#row-arr .filter-btn').forEach((b,i) => b.classList.toggle('active', i===0));
+    applyFilters();
+  }
+
+  function setCat(btn, cat) {
+    activeCat = cat;
+    document.querySelectorAll('#row-cuisine .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+  }
+
+  function setArr(btn, arr) {
+    activeArr = arr;
+    document.querySelectorAll('#row-arr .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+  }
+
+  function applyFilters() {
+    const sections = document.querySelectorAll('#city-paris .category');
+    sections.forEach(section => {
+      const catMatch = activeCat === null || section.dataset.cat === activeCat;
+      const cards = section.querySelectorAll('.card');
+      let sectionHasVisible = false;
+      cards.forEach(card => {
+        const arrMatch = activeArr === null || card.dataset.arr === activeArr;
+        const visible = catMatch && arrMatch;
+        card.style.display = visible ? '' : 'none';
+        if (visible) sectionHasVisible = true;
+      });
+      section.style.display = sectionHasVisible ? '' : 'none';
+    });
+  }
+</script>
+
+</body>
+</html>
