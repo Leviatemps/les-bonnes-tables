@@ -30,20 +30,16 @@
 
     /* ── Hero ── */
     .hero {
-      background: var(--dark);
+      background: linear-gradient(rgba(15,12,10,.45), rgba(15,12,10,.45)), url('Hero.jpg');
+      background-size: cover;
+      background-position: center;
       color: var(--cream);
       text-align: center;
       padding: 72px 24px 60px;
       position: relative;
       overflow: hidden;
     }
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 60% 0%, rgba(201,168,76,.18) 0%, transparent 60%),
-                  radial-gradient(ellipse at 10% 100%, rgba(200,89,58,.15) 0%, transparent 55%);
-    }
+    .hero > * { position: relative; z-index: 2; }
     .hero-eyebrow {
       font-size: 11px;
       letter-spacing: 4px;
@@ -84,7 +80,7 @@
       border: 1px solid rgba(255,255,255,.18);
       border-radius: 6px;
       padding: 5px 11px;
-      font-size: 11px;
+      font-size: 22px;
       font-weight: 600;
       font-family: 'Inter', sans-serif;
       color: rgba(250,246,240,.5);
@@ -107,8 +103,8 @@
       background: rgba(255,255,255,.08);
       border: 1.5px solid rgba(255,255,255,.2);
       border-radius: 99px;
-      padding: 10px 28px;
-      font-size: 14px;
+      padding: 12px 34px;
+      font-size: 17px;
       font-weight: 600;
       font-family: 'Inter', sans-serif;
       color: rgba(250,246,240,.7);
@@ -117,7 +113,7 @@
       letter-spacing: .3px;
     }
     .city-btn:hover { background: rgba(255,255,255,.14); color: var(--cream); border-color: rgba(255,255,255,.4); }
-    .city-btn.active { background: var(--terracotta); border-color: var(--terracotta); color: #fff; }
+    .city-btn.active { background: #5b8fa8; border-color: #5b8fa8; color: #fff; }
 
     /* ── Filters ── */
     .filters-wrap {
@@ -169,10 +165,10 @@
       transition: all .2s;
       flex-shrink: 0;
     }
-    .filter-btn:hover { border-color: var(--terracotta); color: var(--terracotta); }
+    .filter-btn:hover { border-color: #5b8fa8; color: #5b8fa8; }
     .filter-btn.active {
-      background: var(--terracotta);
-      border-color: var(--terracotta);
+      background: #5b8fa8;
+      border-color: #5b8fa8;
       color: #fff;
       font-weight: 500;
     }
@@ -268,6 +264,7 @@
       transform: scale(1.04);
     }
     .card-img.hidden { display: none; }
+    .card-img:not(:has(img[src="Red%20Sauce.jpg"])) { display: none; }
 
     /* ── Card body ── */
     .card-body { padding: 16px 20px 20px; }
@@ -320,12 +317,11 @@
 <!-- ── HERO ── -->
 <header class="hero">
   <div class="lang-switcher">
-    <button class="lang-btn active" onclick="setLang('fr')">FR</button>
-    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn active" data-lang="fr" onclick="setLang('fr')">🇫🇷</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en')">🇬🇧</button>
   </div>
-  <p class="hero-eyebrow" data-i18n="eyebrow">La sélection personnelle</p>
-  <h1>Les <em>Bonnes</em> Tables</h1>
-  <p class="hero-sub" data-i18n="subtitle">Une curation de restaurants testés et approuvés, organisée par cuisine, pour ne jamais manquer d'inspiration.</p>
+<h1>Les <em>Bonnes</em> Tables</h1>
+  <p class="hero-sub" data-i18n="subtitle">Parce que la vie est trop courte pour décevoir nos papilles.</p>
   <div class="city-switcher">
     <button class="city-btn active" onclick="switchCity(this, 'paris')">🗼 Paris</button>
     <button class="city-btn" onclick="switchCity(this, 'lorient')">⚓ Lorient</button>
@@ -492,6 +488,11 @@
           <div class="card-body"><div class="card-name">Bistro Mon Rêve</div><div class="card-meta"><span class="tag tag-arr">15<sup>e</sup></span></div></div>
         </a>
 
+        <a class="card" data-arr="15e" href="https://www.lacabane47.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="La Cabane 47" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">La Cabane 47</div><div class="card-meta"><span class="tag tag-arr">15<sup>e</sup></span></div></div>
+        </a>
+
         <a class="card" data-arr="18e" href="https://restaurant-montcalm.fr/" target="_blank" rel="noopener">
           <div class="card-img"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Montcalm" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
           <div class="card-body"><div class="card-name">Montcalm</div><div class="card-meta"><span class="tag tag-arr">18<sup>e</sup></span></div></div>
@@ -524,6 +525,11 @@
           <div class="card-body"><div class="card-name">Terra Pizza</div><div class="card-meta"><span class="tag tag-arr">3<sup>e</sup></span></div></div>
         </a>
 
+        <a class="card" data-arr="5e" href="https://www.osteria-brutto.com/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="L'Osteria Brutto" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-body"><div class="card-name">L'Osteria Brutto</div><div class="card-meta"><span class="tag tag-arr">5<sup>e</sup></span></div></div>
+        </a>
+
         <a class="card" data-arr="6e" href="https://www.pizzachic.fr/" target="_blank" rel="noopener">
           <div class="card-img"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Pizza Chic" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
           <div class="card-body"><div class="card-name">Pizza Chic</div><div class="card-meta"><span class="tag tag-arr">6<sup>e</sup></span></div></div>
@@ -540,7 +546,7 @@
         </a>
 
         <a class="card" data-arr="10e" href="https://www.bigmammagroup.com/italian-restaurants/libertino" target="_blank" rel="noopener">
-          <div class="card-img"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Libertino" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-img"><img src="Libertino.jpg" alt="Libertino" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
           <div class="card-body"><div class="card-name">Libertino</div><div class="card-meta"><span class="tag tag-arr">10<sup>e</sup></span></div></div>
         </a>
 
@@ -604,11 +610,6 @@
         <a class="card" data-arr="10e" href="https://lepetitcambodge.fr/" target="_blank" rel="noopener">
           <div class="card-img"><img src="https://images.unsplash.com/photo-1562802378-063ec186a863?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Le Petit Cambodge" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
           <div class="card-body"><div class="card-name">Le Petit Cambodge</div><div class="card-meta"><span class="tag tag-arr">10<sup>e</sup></span><span class="tag tag-cuisine" data-i18n="t-cambodgien">Cambodgien</span></div></div>
-        </a>
-
-        <a class="card" data-arr="10e" href="https://www.redsauce.fr/" target="_blank" rel="noopener">
-          <div class="card-img"><img src="Red%20Sauce.jpg" alt="Red Sauce" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
-          <div class="card-body"><div class="card-name">Red Sauce</div><div class="card-meta"><span class="tag tag-arr">10<sup>e</sup></span></div></div>
         </a>
 
         <div class="card" data-arr="13e">
@@ -852,7 +853,7 @@
   const tr = {
     fr: {
       'eyebrow':    'La sélection personnelle',
-      'subtitle':   'Une curation de restaurants testés et approuvés, organisée par cuisine, pour ne jamais manquer d\'inspiration.',
+      'subtitle':   'Parce que la vie est trop courte pour décevoir nos papilles.',
       'label-cuisine': 'Cuisine',
       'label-arr':  'Arrdt',
       'f-all':      'Tout',
@@ -901,7 +902,7 @@
     },
     en: {
       'eyebrow':    'A personal selection',
-      'subtitle':   'A curated list of tried and tested restaurants, organised by cuisine — never run out of inspiration.',
+      'subtitle':   'Because life is too short to disappoint our taste buds.',
       'label-cuisine': 'Cuisine',
       'label-arr':  'Dist.',
       'f-all':      'All',
@@ -960,7 +961,7 @@
       if (tr[lang][key] !== undefined) el.textContent = tr[lang][key];
     });
     document.querySelectorAll('.lang-btn').forEach(b => {
-      b.classList.toggle('active', b.textContent === lang.toUpperCase());
+      b.classList.toggle('active', b.dataset.lang === lang);
     });
   }
 
