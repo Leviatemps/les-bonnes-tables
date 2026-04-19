@@ -173,6 +173,46 @@
     }
     .filters-row.arr-row .filter-btn { padding: 4px 11px; font-size: 11px; }
 
+    /* ── Search ── */
+    .search-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 0;
+      max-width: 900px;
+      width: 100%;
+      border-top: 1px solid var(--border);
+    }
+    .search-icon {
+      font-size: 14px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+    .search-input {
+      flex: 1;
+      border: none;
+      background: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      outline: none;
+      padding: 2px 0;
+    }
+    .search-input::placeholder { color: var(--muted); }
+    .search-clear {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 16px;
+      padding: 0 2px;
+      line-height: 1;
+      opacity: 0;
+      transition: opacity .2s;
+      flex-shrink: 0;
+    }
+    .search-clear.visible { opacity: 1; }
+
     /* ── Main layout ── */
     .main { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
 
@@ -375,6 +415,11 @@
     <button class="filter-btn" onclick="setCat(this, 'asiatique')" data-i18n="f-as">🍚 Asiatiques</button>
     <button class="filter-btn" onclick="setCat(this, 'monde')" data-i18n="f-wo">🌎 Cuisines du monde</button>
     <button class="filter-btn" onclick="setCat(this, 'burger')" data-i18n="f-bu">🍔 Burgers</button>
+  </div>
+  <div class="search-row">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="search-input" type="text" placeholder="Rechercher un restaurant…" oninput="onSearch(this.value)" autocomplete="off" />
+    <button class="search-clear" id="search-clear" onclick="clearSearch()">×</button>
   </div>
   <div class="filters-row arr-row" id="row-arr">
     <span class="filter-label" data-i18n="label-arr">Arrdt</span>
@@ -994,6 +1039,21 @@
     applyFilters();
   }
 
+  let activeSearch = '';
+
+  function onSearch(val) {
+    activeSearch = val.trim().toLowerCase();
+    document.getElementById('search-clear').classList.toggle('visible', activeSearch.length > 0);
+    applyFilters();
+  }
+
+  function clearSearch() {
+    activeSearch = '';
+    document.getElementById('search-input').value = '';
+    document.getElementById('search-clear').classList.remove('visible');
+    applyFilters();
+  }
+
   function applyFilters() {
     const sections = document.querySelectorAll('#city-paris .category');
     sections.forEach(section => {
@@ -1002,7 +1062,9 @@
       let sectionHasVisible = false;
       cards.forEach(card => {
         const arrMatch = activeArr === null || card.dataset.arr === activeArr;
-        const visible = catMatch && arrMatch;
+        const name = card.querySelector('.card-name')?.textContent.toLowerCase() || '';
+        const searchMatch = activeSearch === '' || name.includes(activeSearch);
+        const visible = catMatch && arrMatch && searchMatch;
         card.style.display = visible ? '' : 'none';
         if (visible) sectionHasVisible = true;
       });
