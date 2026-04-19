@@ -1045,9 +1045,10 @@
   let activeCat = null;
   let activeArr = null;
 
-  function switchCity(btn, city) {
+  function switchCity(btn, city, noHash) {
     document.querySelectorAll('.city-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+    if (btn) btn.classList.add('active');
+    else document.querySelector(`.city-btn[onclick*="'${city}'"]`)?.classList.add('active');
     document.querySelectorAll('.city-content').forEach(c => c.classList.remove('visible'));
     document.getElementById('city-' + city).classList.add('visible');
     currentCity = city;
@@ -1057,7 +1058,14 @@
     document.querySelectorAll('#row-cuisine .filter-btn').forEach((b,i) => b.classList.toggle('active', i===0));
     document.querySelectorAll('#row-arr .filter-btn').forEach((b,i) => b.classList.toggle('active', i===0));
     applyFilters();
+    if (!noHash) location.hash = city;
   }
+
+  // Restore city from URL hash on load
+  (function() {
+    const city = location.hash.replace('#', '');
+    if (city === 'lorient' || city === 'paris') switchCity(null, city, true);
+  })();
 
   function setCat(btn, cat) {
     activeCat = cat;
