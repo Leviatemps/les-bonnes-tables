@@ -300,13 +300,54 @@
     }
 
     /* ── Responsive ── */
-    @media (max-width: 600px) {
-      .hero { padding: 48px 20px 40px; }
-      .cards { grid-template-columns: 1fr 1fr; }
-      .lang-switcher { top: 14px; right: 16px; }
+    @media (max-width: 768px) {
+      .main { padding: 32px 16px 64px; }
+      .cards { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+      .category { margin-bottom: 40px; }
     }
+
+    @media (max-width: 600px) {
+      /* Hero */
+      .hero { padding: 56px 20px 36px; }
+      .hero h1 { font-size: clamp(2rem, 9vw, 2.6rem); margin-bottom: 12px; }
+      .hero-sub { font-size: 13px; margin-bottom: 28px; }
+      .lang-switcher { top: 14px; right: 14px; gap: 2px; }
+      .lang-btn { font-size: 20px; padding: 3px 5px; }
+
+      /* City buttons */
+      .city-btn { padding: 10px 24px; font-size: 15px; }
+
+      /* Filters */
+      .filters-wrap { padding: 0 12px; }
+      .filter-label { font-size: 9px; letter-spacing: 1px; }
+      .filter-btn { padding: 5px 11px; font-size: 11.5px; }
+      .filters-row.arr-row .filter-btn { padding: 4px 9px; font-size: 10.5px; }
+
+      /* Cards */
+      .cards { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .card-body { padding: 12px 14px 14px; }
+      .card-name { font-size: 0.88rem; padding-right: 16px; }
+      .tag { font-size: 10px; padding: 2px 8px; }
+
+      /* Category */
+      .category-title { font-size: 1.3rem; }
+      .category-emoji { width: 40px; height: 40px; font-size: 18px; border-radius: 11px; }
+      .category-header { gap: 10px; margin-bottom: 18px; }
+      .main { padding: 24px 14px 56px; }
+    }
+
     @media (max-width: 400px) {
+      .hero h1 { font-size: clamp(1.75rem, 10vw, 2rem); }
+      .hero-sub { font-size: 12.5px; }
+      .city-btn { padding: 9px 18px; font-size: 14px; }
+      .cards { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .card-name { font-size: 0.82rem; }
+      .main { padding: 20px 12px 48px; }
+    }
+
+    @media (max-width: 340px) {
       .cards { grid-template-columns: 1fr; }
+      .city-switcher { gap: 8px; }
     }
   </style>
 </head>
