@@ -1070,6 +1070,9 @@
       link.className = 'tag tag-maps';
       link.innerHTML = '📍 Itinéraire';
       link.onclick = e => e.stopPropagation();
+      const br = document.createElement('div');
+      br.style.cssText = 'flex-basis:100%;height:0';
+      metaEl.appendChild(br);
       metaEl.appendChild(link);
     });
   }
