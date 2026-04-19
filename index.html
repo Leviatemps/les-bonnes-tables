@@ -348,26 +348,6 @@
     .card-img.hidden { display: none; }
     .card-img:not(:has(img[src="Red%20Sauce.jpg"])):not(:has(img[src="Libertino.jpg"])):not(:has(img[src="Terra%20Pizza.jpg"])):not(:has(img[src="Club%20Cochon.jpg"])):not(:has(img[src="La%20Fontaine%20de%20Mars.jpg"])):not(:has(img[src="Racines.jpg"])):not(:has(img[src="Le%20Chardon.jpg"])):not(:has(img[src="Public%20House.jpg"])):not(:has(img[src="Bouillon%20Julien.jpg"])):not(:has(img[src="Creperie%20Brutus.jpg"])):not(:has(img[src="Les%20fils%20a%20maman%20plain.jpg"])):not(:has(img[src="Wilette.jpg"])):not(:has(img[src="Le%20Petit%20Troquet.jpg"])):not(:has(img[src="Pristine.jpg"])):not(:has(img[src="Bistro%20Mon%20Reve.jpg"])):not(:has(img[src="La%20Cabane%2047.jpg"])):not(:has(img[src="Dubillot.jpg"])):not(:has(img[src="Montcalm.jpg"])):not(:has(img[src="Papacionu.jpg"])):not(:has(img[src="Pizza%20chic.jpg"])):not(:has(img[src="Bokko.jpg"])):not(:has(img[src="Le%20Petit%20Chardon.jpg"])):not(:has(img[src="Le%20Comptoir%20des%20Petits%20Champs.jpg"])):not(:has(img[src="Le%20Petit%20Marche.jpg"])):not(:has(img[src="Chez%20Fernand.jpg"])):not(:has(img[src="La%20Villa%20Reine.jpg"])):not(:has(img[src="Ibrik.jpg"])):not(:has(img[src="Boria.jpg"])):not(:has(img[src="Osteria%20Brutto.jpg"])):not(:has(img[src="Comme%20un%20Bouillon.jpg"])):not(:has(img[src="Popolare.jpg"])):not(:has(img[src="Vafamoc.jpg"])):not(:has(img[src="Dumbo.jpg"])):not(:has(img[src="Nossa.jpg"])):not(:has(img[src="La%20Cantine%20Lourmel.jpg"])):not(:has(img[src="Mio%20Posto.jpg"])) { display: none; }
 
-    /* ── Card note overlay (on image hover) ── */
-    .card-note-overlay {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      background: linear-gradient(transparent, rgba(15,12,10,.78));
-      padding: 36px 14px 11px;
-      color: rgba(250,246,240,.93);
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 12.5px;
-      line-height: 1.4;
-      transform: translateY(100%);
-      transition: transform .28s ease;
-      pointer-events: none;
-    }
-    .card:hover .card-note-overlay,
-    a.card:hover .card-note-overlay {
-      transform: translateY(0);
-    }
-
     /* ── Card body ── */
     .card-body { padding: 16px 20px 20px; }
 
@@ -540,7 +520,7 @@
       <div class="category-line"></div>
       <div class="cards">
 
-        <a class="card" data-arr="1er" data-note="Un classique du quartier, cadre parfait pour le déjeuner" href="https://www.lecomptoirdespetitschamps.fr/" target="_blank" rel="noopener">
+        <a class="card" data-arr="1er" href="https://www.lecomptoirdespetitschamps.fr/" target="_blank" rel="noopener">
           <div class="card-img"><img src="Le%20Comptoir%20des%20Petits%20Champs.jpg" alt="Le Comptoir des Petits Champs" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
           <div class="card-body"><div class="card-name">Le Comptoir des Petits Champs</div><div class="card-meta"><span class="tag tag-arr">1<sup>er</sup> · rue des Petits Champs</span></div></div>
         </a>
@@ -586,7 +566,7 @@
         </a>
 
 
-        <a class="card" data-arr="9e" data-note="Sashimi d'une fraîcheur impeccable, y aller le midi" href="https://pristineparis.com/" target="_blank" rel="noopener">
+        <a class="card" data-arr="9e" href="https://pristineparis.com/" target="_blank" rel="noopener">
           <div class="card-img"><img src="Pristine.jpg" alt="Pristine" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
           <div class="card-body"><div class="card-name">Pristine</div><div class="card-meta"><span class="tag tag-arr">9<sup>e</sup> · rue de Maubeuge</span></div></div>
         </a>
@@ -713,7 +693,7 @@
           <div class="card-body"><div class="card-name">Vafamoc</div><div class="card-meta"><span class="tag tag-arr">10<sup>e</sup> · rue des Vinaigriers</span></div></div>
         </a>
 
-        <div class="card" data-arr="11e" data-note="Le meilleur risotto de Paris, point final">
+        <div class="card" data-arr="11e">
           <div class="card-img"><img src="Mio%20Posto.jpg" alt="Mio Posto" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
           <div class="card-body"><div class="card-name">Mio Posto</div><div class="card-meta"><span class="tag tag-arr">11<sup>e</sup> · rue Keller</span></div></div>
         </div>
@@ -1094,18 +1074,6 @@
     });
   }
   addMapsButtons();
-
-  // ── Note overlays ──
-  document.querySelectorAll('.card[data-note]').forEach(card => {
-    const note = card.dataset.note;
-    if (!note) return;
-    const imgWrap = card.querySelector('.card-img');
-    if (!imgWrap) return;
-    const overlay = document.createElement('div');
-    overlay.className = 'card-note-overlay';
-    overlay.textContent = '✦ ' + note;
-    imgWrap.appendChild(overlay);
-  });
 
   let currentLang = 'fr';
 
