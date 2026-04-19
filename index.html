@@ -77,20 +77,20 @@
       z-index: 2;
     }
     .lang-btn {
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.18);
-      border-radius: 6px;
+      background: rgba(250,246,240,.13);
+      border: 1px solid rgba(250,246,240,.28);
+      border-radius: 8px;
       padding: 5px 11px;
       font-size: 22px;
-      font-weight: 600;
       font-family: 'Inter', sans-serif;
-      color: rgba(250,246,240,.5);
+      color: rgba(250,246,240,.7);
       cursor: pointer;
-      letter-spacing: 1px;
       transition: all .2s;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
-    .lang-btn:hover { background: rgba(255,255,255,.16); color: var(--cream); }
-    .lang-btn.active { background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.45); color: var(--cream); }
+    .lang-btn:hover { background: rgba(250,246,240,.22); color: var(--cream); border-color: rgba(250,246,240,.45); }
+    .lang-btn.active { background: rgba(250,246,240,.22); border-color: rgba(250,246,240,.55); color: var(--cream); }
 
     /* ── City switcher ── */
     .city-switcher {
