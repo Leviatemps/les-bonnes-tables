@@ -98,20 +98,21 @@
       z-index: 1;
     }
     .city-btn {
-      background: rgba(255,255,255,.08);
-      border: 1.5px solid rgba(255,255,255,.38);
-      border-radius: 99px;
-      padding: 12px 34px;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      border-radius: 0;
+      padding: 10px 20px 8px;
       font-size: 17px;
       font-weight: 600;
       font-family: 'Inter', sans-serif;
-      color: rgba(250,246,240,.7);
+      color: rgba(250,246,240,.55);
       cursor: pointer;
       transition: all .25s;
       letter-spacing: .3px;
     }
-    .city-btn:hover { background: rgba(255,255,255,.14); color: var(--cream); border-color: rgba(255,255,255,.4); }
-    .city-btn.active { background: #5b8fa8; border-color: #5b8fa8; color: #fff; }
+    .city-btn:hover { color: rgba(250,246,240,.85); }
+    .city-btn.active { color: #fff; border-bottom-color: #d4b483; }
 
     /* ── Filters ── */
     .filters-wrap {
