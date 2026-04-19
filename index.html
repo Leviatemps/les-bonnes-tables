@@ -173,45 +173,50 @@
     }
     .filters-row.arr-row .filter-btn { padding: 4px 11px; font-size: 11px; }
 
-    /* ── Search ── */
-    .search-row {
+    /* ── Hero Search ── */
+    .hero-search {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 0;
-      max-width: 900px;
+      gap: 10px;
+      margin: 24px auto 0;
+      max-width: 420px;
       width: 100%;
-      border-top: 1px solid var(--border);
+      background: rgba(250,246,240,.15);
+      border: 1px solid rgba(250,246,240,.3);
+      border-radius: 99px;
+      padding: 10px 18px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: background .2s, border-color .2s;
     }
-    .search-icon {
-      font-size: 14px;
-      color: var(--muted);
-      flex-shrink: 0;
+    .hero-search:focus-within {
+      background: rgba(250,246,240,.22);
+      border-color: rgba(250,246,240,.55);
     }
-    .search-input {
+    .hero-search-icon { font-size: 14px; opacity: .7; flex-shrink: 0; }
+    .hero-search-input {
       flex: 1;
       border: none;
       background: none;
       font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      color: var(--text);
+      font-size: 14px;
+      color: var(--cream);
       outline: none;
-      padding: 2px 0;
     }
-    .search-input::placeholder { color: var(--muted); }
-    .search-clear {
+    .hero-search-input::placeholder { color: rgba(250,246,240,.55); }
+    .hero-search-clear {
       background: none;
       border: none;
       cursor: pointer;
-      color: var(--muted);
-      font-size: 16px;
-      padding: 0 2px;
+      color: rgba(250,246,240,.7);
+      font-size: 18px;
+      padding: 0;
       line-height: 1;
       opacity: 0;
       transition: opacity .2s;
       flex-shrink: 0;
     }
-    .search-clear.visible { opacity: 1; }
+    .hero-search-clear.visible { opacity: 1; }
 
     /* ── Main layout ── */
     .main { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
@@ -403,6 +408,11 @@
     <button class="city-btn active" onclick="switchCity(this, 'paris')">Paris</button>
     <button class="city-btn" onclick="switchCity(this, 'lorient')">Lorient</button>
   </div>
+  <div class="hero-search">
+    <span class="hero-search-icon">🔍</span>
+    <input class="hero-search-input" id="search-input" type="text" placeholder="Rechercher un restaurant…" oninput="onSearch(this.value)" autocomplete="off" />
+    <button class="hero-search-clear" id="search-clear" onclick="clearSearch()">×</button>
+  </div>
 </header>
 
 <!-- ── FILTERS ── -->
@@ -415,11 +425,6 @@
     <button class="filter-btn" onclick="setCat(this, 'asiatique')" data-i18n="f-as">🍚 Asiatiques</button>
     <button class="filter-btn" onclick="setCat(this, 'monde')" data-i18n="f-wo">🌎 Cuisines du monde</button>
     <button class="filter-btn" onclick="setCat(this, 'burger')" data-i18n="f-bu">🍔 Burgers</button>
-  </div>
-  <div class="search-row">
-    <span class="search-icon">🔍</span>
-    <input class="search-input" id="search-input" type="text" placeholder="Rechercher un restaurant…" oninput="onSearch(this.value)" autocomplete="off" />
-    <button class="search-clear" id="search-clear" onclick="clearSearch()">×</button>
   </div>
   <div class="filters-row arr-row" id="row-arr">
     <span class="filter-label" data-i18n="label-arr">Arrdt</span>
