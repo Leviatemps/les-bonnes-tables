@@ -42,11 +42,11 @@
   }
   </script>
 
-  <!-- Performance: preconnect Google Fonts -->
+  <!-- Performance: preconnect + preload Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
 
     :root {
       --cream: #faf6f0;
@@ -293,7 +293,7 @@
     .card-img img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
       display: block;
       transition: transform .4s ease;
     }
@@ -302,8 +302,8 @@
       transform: scale(1.04);
     }
     .card-img.hidden { display: none; }
-    #city-lorient .card-img:not(:has(img[src="Le%20Morvan.jpg"])):not(:has(img[src="La%20Villa%20Margaret.jpg"])):not(:has(img[src="Le%20Jardin%20des%20Cures.jpg"])):not(:has(img[src="Le%20Poulpe.jpg"])):not(:has(img[src="Chateau%20de%20Locguenole.jpg"])):not(:has(img[src="Le%20Neptune.jpg"])):not(:has(img[src="Club%20Bulot.jpg"])):not(:has(img[src="Le%20Clos%20Margaux.jpg"])):not(:has(img[src="La%20Cantine%20des%20Matelots.jpg"])):not(:has(img[src="L'Ecume%20gourmande.jpg"])):not(:has(img[src="Bleu%20The.jpg"])):not(:has(img[src="La%20Guinguette%20de%20Thoulars.jpg"])) { display: none; }
-    #city-paris .card-img:not(:has(img[src="Red%20Sauce.jpg"])):not(:has(img[src="Libertino.jpg"])):not(:has(img[src="Terra%20Pizza.jpg"])):not(:has(img[src="Club%20Cochon.jpg"])):not(:has(img[src="La%20Fontaine%20de%20Mars.jpg"])):not(:has(img[src="Racines.jpg"])):not(:has(img[src="Le%20Chardon.jpg"])):not(:has(img[src="Public%20House.jpg"])):not(:has(img[src="Bouillon%20Julien.jpg"])):not(:has(img[src="Creperie%20Brutus.jpg"])):not(:has(img[src="Les%20fils%20a%20maman.jpg"])):not(:has(img[src="Wilette.jpg"])):not(:has(img[src="Le%20Petit%20Troquet.jpg"])):not(:has(img[src="Pristine.jpg"])):not(:has(img[src="Bistro%20Mon%20Reve.jpg"])):not(:has(img[src="La%20Cabane%2047.jpg"])):not(:has(img[src="Dubillot.jpg"])):not(:has(img[src="Montcalm.jpg"])):not(:has(img[src="Papacionu.jpg"])):not(:has(img[src="Pizza%20chic.jpg"])):not(:has(img[src="Bokko.jpg"])):not(:has(img[src="Le%20Petit%20Chardon.jpg"])):not(:has(img[src="Le%20Comptoir%20des%20Petits%20Champs.jpg"])):not(:has(img[src="Le%20Petit%20Marche.jpg"])):not(:has(img[src="Chez%20Fernand.jpg"])):not(:has(img[src="La%20Villa%20Reine.jpg"])):not(:has(img[src="Ibrik.jpg"])):not(:has(img[src="Boria.jpg"])):not(:has(img[src="Osteria%20Brutto.jpg"])):not(:has(img[src="Comme%20un%20Bouillon.jpg"])):not(:has(img[src="Popolare.jpg"])):not(:has(img[src="Vafamoc.jpg"])):not(:has(img[src="Dumbo.jpg"])):not(:has(img[src="Nossa.jpg"])):not(:has(img[src="La%20Cantine%20Lourmel.jpg"])):not(:has(img[src="Mio%20Posto.jpg"])):not(:has(img[src="Miznon.jpg"])) { display: none; }
+    /* Masquer les vignettes sans photo locale (URLs externes = Unsplash, etc.) */
+    .card-img:has(img[src^="http"]) { display: none; }
 
     /* ── Card body ── */
     .card-body { padding: 16px 20px 20px; }
@@ -524,7 +524,7 @@
         </a>
 
         <a class="card" data-arr="9e" href="https://www.lesfilsamaman.com/" target="_blank" rel="noopener">
-          <div class="card-img"><img src="Les%20fils%20a%20maman%20plain.jpg" alt="Les Fils à Maman" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-img"><img src="Les%20fils%20a%20maman.jpg" alt="Les Fils à Maman" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
           <div class="card-body"><div class="card-name">Les Fils à Maman</div><div class="card-meta"><span class="tag tag-arr">9<sup>e</sup> · rue Geoffroy Marie</span></div></div>
         </a>
 
@@ -735,7 +735,7 @@
       <div class="cards">
 
         <a class="card" data-arr="9e" href="https://www.miznonparis.com/" target="_blank" rel="noopener">
-          <div class="card-img"><img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Miznon" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
+          <div class="card-img"><img src="Miznon.jpg" alt="Miznon" loading="lazy" onerror="this.parentElement.classList.add('hidden')"></div>
           <div class="card-body"><div class="card-name">Miznon</div><div class="card-meta"><span class="tag tag-arr">9<sup>e</sup> · rue de la Grange Batelière</span><span class="tag tag-cuisine" data-i18n="t-israelien">Israélien</span></div></div>
         </a>
 
@@ -913,13 +913,11 @@
       'f-as':       '🍚 Asiatiques',
       'f-wo':       '🌎 Cuisines du monde',
       'f-bu':       '🍔 Burgers',
-      'f-td':       '📌 À tester',
       'title-fr':   'Cuisine Française',
       'title-it':   'Cuisine Italienne',
       'title-as':   'Cuisines Asiatiques',
       'title-wo':   'Cuisines du Monde',
       'title-bu':   'Burgers',
-      'title-td':   'À tester',
       'title-ev':   'En ville',
       'title-al':   'Aux alentours',
       't-japonais':  'Japonais',
@@ -934,20 +932,6 @@
       't-indien':    'Indien',
       't-bresilien': 'Brésilien',
       't-portugais': 'Portugais',
-      't-taverne':   'Taverne',
-      't-bestvalue': 'Meilleur rapport qualité/prix',
-      't-barrest':   'Bar & restaurant',
-      't-cadre':     'Cadre incroyable',
-      't-terrasse':  'Belle terrasse',
-      't-port':      'Proche du port',
-      't-barresto':  'Bar & resto',
-      't-carrefour': 'Zone Carrefour',
-      't-brasserie': 'Brasserie · Bouchon',
-      't-centrev':   'Centre-ville',
-      't-ete':       'Pour l\'été',
-      't-the':       'Salon de thé',
-      't-must':      'Incontournable',
-      't-creperie':  'Crêperie',
       'footer':      'Les Bonnes Tables · Mise à jour 2026',
     },
     en: {
@@ -962,13 +946,11 @@
       'f-as':       '🍚 Asian',
       'f-wo':       '🌎 World Cuisines',
       'f-bu':       '🍔 Burgers',
-      'f-td':       '📌 To try',
       'title-fr':   'French Cuisine',
       'title-it':   'Italian Cuisine',
       'title-as':   'Asian Cuisines',
       'title-wo':   'World Cuisines',
       'title-bu':   'Burgers',
-      'title-td':   'To try',
       'title-ev':   'In town',
       'title-al':   'Surroundings',
       't-japonais':  'Japanese',
@@ -983,20 +965,6 @@
       't-indien':    'Indian',
       't-bresilien': 'Brazilian',
       't-portugais': 'Portuguese',
-      't-taverne':   'Tavern',
-      't-bestvalue': 'Best value for money',
-      't-barrest':   'Bar & restaurant',
-      't-cadre':     'Incredible setting',
-      't-terrasse':  'Beautiful terrace',
-      't-port':      'Near the harbour',
-      't-barresto':  'Bar & bistro',
-      't-carrefour': 'Near Carrefour',
-      't-brasserie': 'Brasserie · Bouchon',
-      't-centrev':   'City centre',
-      't-ete':       'Perfect for summer',
-      't-the':       'Tea room',
-      't-must':      'A must-visit',
-      't-creperie':  'Crêperie',
       'footer':      'Les Bonnes Tables · Updated 2026',
     }
   };
