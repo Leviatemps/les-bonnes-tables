@@ -332,6 +332,21 @@
     }
     .tag-arr { background: rgba(200,89,58,.1); color: var(--terracotta); }
     .tag-cuisine { background: rgba(30,26,22,.07); color: var(--muted); }
+    .tag-maps {
+      background: rgba(91,143,168,.1);
+      color: #5b8fa8;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .3px;
+      padding: 3px 10px;
+      border-radius: 99px;
+      transition: background .2s;
+    }
+    .tag-maps:hover { background: rgba(91,143,168,.2); }
 
     /* ── Footer ── */
     footer {
@@ -996,6 +1011,28 @@
       'footer':      'Les Bonnes Tables · Updated 2026',
     }
   };
+
+  /* ── Maps buttons ── */
+  function addMapsButtons() {
+    document.querySelectorAll('.card').forEach(card => {
+      const nameEl = card.querySelector('.card-name');
+      const metaEl = card.querySelector('.card-meta');
+      if (!nameEl || !metaEl) return;
+      const name = nameEl.textContent.trim();
+      const cityId = card.closest('.city-content')?.id;
+      const city = cityId === 'city-lorient' ? 'Lorient' : 'Paris';
+      const query = encodeURIComponent(name + ' ' + city);
+      const link = document.createElement('a');
+      link.href = `https://www.google.com/maps/search/?api=1&query=${query}`;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.className = 'tag tag-maps';
+      link.innerHTML = '📍 Itinéraire';
+      link.onclick = e => e.stopPropagation();
+      metaEl.appendChild(link);
+    });
+  }
+  addMapsButtons();
 
   let currentLang = 'fr';
 
